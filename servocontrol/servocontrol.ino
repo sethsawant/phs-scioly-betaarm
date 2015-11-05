@@ -8,8 +8,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 #define CLAWMIN  150 // this is the 'minimum' pulse length count (out of 4096)
 #define CLAWMAX  385// this is the 'maximum' pulse length count (out of 4096)
-
 // our servo # counter
+//Test comment
 uint8_t servonum = 0;
 const int clawButtonPin = 2;
 const int clawHeader = 0;
