@@ -5,15 +5,12 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // you can also call it with a different address you want
 //Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
-
-#define CLAWMIN  150 // this is the 'minimum' pulse length count (out of 4096)
-#define CLAWMAX  385// this is the 'maximum' pulse length count (out of 4096)
 // our servo # counter
 //Test comment
 uint8_t servonum = 0;
-const int clawButtonPin = 2;
-const int clawHeader = 0;
-int clawButtonState = 0;
+const int clawButtonPin = 2; // Sets the pin that takes the claw button input
+const int clawHeader = 0; // Sets which shield header the claw servo is wired to
+int clawButtonState = 0; // Marks the button as open to begin
 int clawState = 0;
 
 
@@ -22,27 +19,9 @@ void setup() {
   Serial.println("Initalizing serial communication.");
 
   pwm.begin();
-  pinMode(clawButtonPin, INPUT);
-  
+  pinMode(clawButtonPin, INPUT); // Sets the claw button pin to accept inputs
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
   Serial.println("PWM initialized");
-}
-
-
-int clawOpen() {
-  Serial.println("Opening claw.");
-  for (uint16_t pulselen = CLAWMIN; pulselen < CLAWMAX; pulselen++) {
-    pwm.setPWM(clawHeader, 0, pulselen);
-    clawState = 0;
-  }
-}
-
-int clawClose() {
-  Serial.println("Closing claw.");
-  for (uint16_t pulselen = CLAWMAX; pulselen > CLAWMIN; pulselen--) {
-    pwm.setPWM(clawHeader, 0, pulselen);
-    clawState = 1;
-  }
 }
 
 void loop() {
