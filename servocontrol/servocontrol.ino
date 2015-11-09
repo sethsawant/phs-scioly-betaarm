@@ -8,10 +8,13 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // our servo # counter
 //Test comment
 uint8_t servonum = 0;
+const int xpin = 0;
+const int baseHeader = 0; // Sets which shield header the base servo is wired to
+int basePos = 0;
 const int clawButtonPin = 2; // Sets the pin that takes the claw button input
 const int clawHeader = 0; // Sets which shield header the claw servo is wired to
 int clawButtonState = 0; // Marks the button as open to begin
-int clawState = 0;
+int clawState = 0; // Sets the claw state to closed
 
 
 void setup() {
@@ -25,7 +28,11 @@ void setup() {
 }
 
 void loop() {
-  clawButtonState = digitalRead(clawButtonPin);
+  clawButtonState = digitalRead(clawButtonPin);              //checks status of claw control button 
+//  if (analogRead(xpin) != 0) {
+//    baseRot();
+//  }
+  
   if ((clawButtonState == HIGH) && (clawState == 1)) {     
     // Opens claw:    
     clawOpen();
@@ -35,5 +42,6 @@ void loop() {
     // Opens claw:    
     clawClose();
     Serial.println("close");
+  
   } 
 }
