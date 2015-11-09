@@ -14,7 +14,7 @@ int basePos = 0;
 const int clawButtonPin = 2; // Sets the pin that takes the claw button input
 const int clawHeader = 0; // Sets which shield header the claw servo is wired to
 int clawButtonState = 0; // Marks the button as open to begin
-int clawState = 0; // Sets the claw state to closed
+boolean clawState = false; // Sets the claw state to closed
 
 
 void setup() {
@@ -33,12 +33,12 @@ void loop() {
 //    baseRot();
 //  }
   
-  if ((clawButtonState == HIGH) && (clawState == 1)) {     
+  if ((clawButtonState == HIGH) && (clawState == true)) {     
     // Opens claw:    
     clawOpen();
     Serial.println("open");
   } 
-  else if ((clawButtonState == HIGH) && (clawState == 0)) {     
+  else if ((clawButtonState == HIGH) && (clawState == false)) {     
     // Opens claw:    
     clawClose();
     Serial.println("close");
