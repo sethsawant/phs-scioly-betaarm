@@ -31,20 +31,7 @@ void setup() {
 }
 
 void loop() {
-  clawButtonState = digitalRead(clawButtonPin);              //checks status of claw control button 
-  //int x_Pos = analogRead(x_Pin);
-  //Serial.println(x_Pos);
-  //int y_Pos = analogRead(y_Pin);
-  
-  
-  if ((clawButtonState == HIGH) && (clawState == true)) {     
-    // Opens claw:    
-    clawOpen();
-    Serial.println("open");
-  } 
-  else if ((clawButtonState == HIGH) && (clawState == false)) {     
-    // Opens claw:    
-    clawClose();
-    Serial.println("close");  
-  } 
+  int x_Pos = analogRead(x_Pin);
+  Serial.println(x_Pos);
+  if (x_Pos)
 }
