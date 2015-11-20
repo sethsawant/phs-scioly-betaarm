@@ -10,9 +10,14 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 uint8_t servonum = 0;
 const int x_Pin = 0; // Sets the analog pin for the joystick x-axis
 const int y_Pin = 1; // Sets the analog pin for the joystick x-axis\
+
 const int x_Zero = 509; //sets the zero value of the joystick
+const int x_Buffer = 5; // Buffer size on both sides of the x value
+const int x_Speed = 3; // Sets the speed at which the base servo moves
 
 int basePos = 0;
+const int baseHeader = 4;
+
 const int clawButtonPin = 2; // Sets the pin that takes the claw button input
 const int clawHeader = 0; // Sets which shield header the claw servo is wired to
 int clawButtonState = 0; // Marks the button as open to begin
@@ -37,34 +42,10 @@ void loop() {
   clawButtonState = digitalRead(clawButtonPin);              //checks status of claw control button 
   
   int y_Pos = analogRead(y_Pin);
-  int x_Pos = analogRead(x_Pin); //reads x axis of joystick
+ 
+  Serial.println(basePos);
   
-  Serial.println(x_Pos); // Prints analog value of x axis on joystick
-  
-  if ((x_Pos != x_Zero) && (x_Pos > x_Zero)) {
-    
-    #define SERVOMIN  150
-    #define SERVOMAX  385
-    
-    const int baseHeader = 1;
-    int pulselen = map(degrees, 0, 180, SERVOMIN, SERVOMAX);
-    pulselen++;
-    pwm.setPWM(baseHeader, 1, pulselen);
-    Serial.println("joystick x >");  
-  }
-  
-  if ((x_Pos != x_Zero) && (x_Pos < x_Zero)) {
-    
-    #define SERVOMIN  150
-    #define SERVOMAX  385
-    
-    const int baseHeader = 1;
-    int degrees;
-    int pulselen = map(degrees, 0, 180, SERVOMIN, SERVOMAX);
-    pwm.setPWM(baseHeader, 1, pulselen);
-    Serial.println("joystick x <");  
-  }
-  
+  baseRot();
   
   if ((clawButtonState == HIGH) && (clawState == true)) {     
     // Opens claw:    
