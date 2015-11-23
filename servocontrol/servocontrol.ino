@@ -15,8 +15,16 @@ const int x_Zero = 509; //sets the zero value of the joystick
 const int x_Buffer = 5; // Buffer size on both sides of the x value
 const int x_Speed = 3; // Sets the speed at which the base servo moves
 
+const int y_Zero = 503; //sets the zero value of the joystick
+const int y_Buffer = 5; // Buffer size on both sides of the y value
+const int y_Speed = 3; // Sets the speed at which the base servo moves
+
 int basePos = 0;
-const int baseHeader = 4;
+const int baseHeader = 1;
+
+const int wristHeader = 3;
+int wristPos = 0;
+
 
 const int clawButtonPin = 2; // Sets the pin that takes the claw button input
 const int clawHeader = 0; // Sets which shield header the claw servo is wired to
@@ -39,13 +47,10 @@ void setup() {
 void loop() {
   const int x_Zero = 509;
   
-  clawButtonState = digitalRead(clawButtonPin);              //checks status of claw control button 
-  
-  int y_Pos = analogRead(y_Pin);
- 
-  Serial.println(basePos);
+  clawButtonState = digitalRead(clawButtonPin);              //checks status of claw control button
   
   baseRot();
+  wristRot();
   
   if ((clawButtonState == HIGH) && (clawState == true)) {     
     // Opens claw:    

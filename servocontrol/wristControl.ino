@@ -1,19 +1,31 @@
-#define WRISTMIN  150 // These pulse lengths for the claw servo positions are correct currently.
-#define WRISTMAX  385
+#define WRISTMIN  150 
+#define WRISTMAX  850
 
-int wristForw() {
-  Serial.println("Opening claw.");
-  for (uint16_t pulselen = CLAWMIN; pulselen < CLAWMAX; pulselen++) {
-    pwm.setPWM(clawHeader, 0, pulselen);
-    clawState = 0; //Marks claw as open
+
+int wristRot() {
+
+  int y_Pos = analogRead(y_Pin); //reads x axis of joystick
+  
+  Serial.println(wristPos);
+  
+  //Serial.println(y_Pos);
+  if ((y_Pos != y_Zero) && (y_Pos > (y_Zero + 5))) {
+    pwm.setPWM(wristHeader, 0, map((wristPos++), 0, 180, WRISTMIN, WRISTMAX));
   }
+
+  if (wristPos >= 180) {
+    wristPos = 180;
+  }
+  
+  if ((y_Pos != y_Zero) && (y_Pos < (y_Zero - 5))) {
+      pwm.setPWM(wristHeader, 0, map((wristPos--), 0, 180, WRISTMIN, WRISTMAX)); 
+  }
+
+  if (wristPos <= 0) {
+    wristPos = 0;
+  }
+
 }
 
-int wistBack() {
-  Serial.println("Closing claw.");
-  for (uint16_t pulselen = CLAWMAX; pulselen > CLAWMIN; pulselen--) {
-    pwm.setPWM(clawHeader, 0, pulselen);
-    clawState = 1; // Marks claw is closed
-  }
-}
+
 
